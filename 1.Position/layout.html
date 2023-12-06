@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM操作</title>
+    <link rel="stylesheet" href="layout.css" />
+    <style></style>
+  </head>
+
+  <body>
+    <div class="header">DOM操作</div>
+    <div class="container">
+      <div id="home">
+        <div class="son">我是儿子</div>
+        <div class="daughter">我是女儿</div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    let home = document.getElementById("home");
+
+    console.log(home);
+
+    let son = document.querySelector(".son");
+
+    let sonContent = [1, 2, 3, 4, 5, 6, 7];
+    //初始化dom
+    let displayStatus = true;
+    let index = 0;
+    son.addEventListener("mousedown"
+    //即鼠标点击
+    , 
+    function (e) {
+      if (event.button === 0 && sonContent.length > 1) {
+        son.innerText = index;
+        son.style.color = displayStatus ? "white" : "black";
+        //判断true或false来决定是白色还是黑色
+        index++;
+        displayStatus = !displayStatus;
+      } else if (event.button === 2) {
+        displayStatus = !displayStatus;
+        son.style.display = displayStatus ? "block" : "none";
+      }
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    sonContent.push(son.innerText);
+    sonContent.unshift("");
+
+    let daughter = document.querySelector(".daughter");
+
+    // 获取当前元素的位置信息作为初始位置信息
+    let currentPositonX = parseFloat(
+      getComputedStyle(daughter).getPropertyValue("left")
+    );
+    let currentPositionY = parseFloat(
+      getComputedStyle(daughter).getPropertyValue("top")
+    );
+
+    document.addEventListener("keydown", function (e) {
+      const keyCode = e.keyCode || e.which;
+
+      switch (keyCode) {
+        // 上箭头键
+        case 38:
+          currentPositionY -= 10;
+          daughter.style.top = `${currentPositionY}px`;
+          break;
+        // 下箭头键
+        case 40:
+          currentPositionY += 10;
+          daughter.style.top = `${currentPositionY}px`;
+          break;
+        // 左箭头键
+        case 37:
+          currentPositonX -= 10;
+          daughter.style.left = `${currentPositonX}px`;
+          break;
+        // 右箭头键
+        case 39:
+          currentPositonX += 10;
+          daughter.style.left = `${currentPositonX}px`;
+          break;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  </script>
+</html>
